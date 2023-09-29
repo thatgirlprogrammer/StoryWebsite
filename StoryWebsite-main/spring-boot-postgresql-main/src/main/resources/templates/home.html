@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ></html>>
+    <head>
+        <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      
+        <title>Home</title>
+        <script th:inline="javascript">  
+            function onClick(id) {
+                url = 'http://localhost:3000/StoryView.html?id=' + encodeURIComponent(id);
+                document.location.href = url;
+            }
+        </script>
+    </head>
+    <body style="background-color: #ffd0a1">
+        <img src="/images/grandTeton.jpg" width="100%" alt="Grand Teton" height="200"></img>
+
+        <h1 class="h1">Stories</h1>
+        <div class="container">
+            <div th:each="storyVal,iterStat: ${story}" class="col-sm-4" style="padding: 10px;">
+                <div onclick="onClick(id)" th:id="${storyVal.storyId}"
+                style="border: 1px solid;
+                    padding: 5px;
+                    position: relative;
+                    height: 200px;
+                    box-shadow: 5px 10px 8px #144873;
+                    background-color: #6aabdf;">
+                        <p id="titleVal" th:text="${storyVal.title}" />
+                        <p id="dateCreated" th:text="${storyVal.dateCreated}"/>
+                        <p th:text="'Views: ' + ${views[iterStat.index]}">
+                        <p th:text="'Downloads: ' + ${downloads[iterStat.index]}"></p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+
+        <a href="NewStory.html" style="  text-align: center;
+        padding: 10px; position: relative;
+        background-color: #144873;
+        color: #ffffff;">New Story<a>
+
+    </body>
+</html>
+
+

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" ></html>>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css"  href="style.css" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      
+        <title id="storyTitle">StoryView</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    </head>
+    <body>
+        <div th:each="storyVal: ${story}">
+            <div>
+                    <h1 class="h1" id="titleVal" th:text="${storyVal.title}" />
+                    <p class="p" id="dateCreated" th:text="${storyVal.dateCreated}"/>
+                    <p class="p" id="body" th:text="${storyVal.body}"/>
+            </div>
+        </div>
+
+        <p th:text="'Veiws: ' + ${views}">
+        <p th:text="'Downloads: ' + ${downloads}">
+        
+        <div style="display: inline-block;
+                position: relative;
+                width: 50%; padding: 20px;">
+                <canvas id="viewsAndDownloads" width="100px" height="50px"></canvas>
+            </div>
+
+            <button onclick="getChart()">Get Views and Downloads per Day</button>
+            
+            
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+                crossorigin="anonymous">
+            </script>
+            
+            <script th:inline="javascript">
+                function getChart() {
+                /*<![CDATA[*/
+                    var stats = /*[[${daily_statistics}]]*/ 'daily_statistics';
+                    /*]]>*/
+                    var views = [];
+                    var downloads = [];
+                    var dates = [];
+                   
+                    for (var i = 0; i < stats.length; i++) {
+                        views.push(stats[i].views);
+                        downloads.push(stats[i].downloads);
+                        dates.push(stats[i].date);
+                    }
+
+                    new Chart(document.getElementById("viewsAndDownloads"), {
+                        type: 'line',
+                        data: {
+                            labels: dates,
+                            datasets: [{ 
+                                data: views,
+                                label: "Views",
+                                borderColor: "#3e95cd",
+                                fill: false,
+                                borderWidth: 5,
+                            }, { 
+                                data: downloads,
+                                label: "Downloads",
+                                borderColor: "#8e5ea2",
+                                fill: false,
+                                borderWidth: 5,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            title: {
+                                display: true,
+                                text: 'Veiws and Downloads per Day',
+                                fontSize: 20
+                            },
+                            scales: {
+                                y: {
+                                    ticks: { color: 'black', beginAtZero: true, fontSize: 18 }
+                                },
+                                x: {
+                                    ticks: { color: 'black', fontSize: 18 }
+                                }
+                            }
+                        }
+                    });
+
+                }
+                </script>
+
+        <form action="/download" method="get" th:each="storyVal: ${story}">
+            <button id="id" name="download">Download</button>
+        </form>
+        <a href="./">Home</a>
+    </body>
+</html>
+
+
