@@ -49,7 +49,7 @@ public class StoryViewController {
         String title = storyRepository.findById(id).get().getTitle();
         String body = storyRepository.findById(id).get().getBody();
 
-        BufferedImage image = new BufferedImage(400, 600, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(450, 600, BufferedImage.TYPE_INT_RGB);
 
         String[] words = body.split(" ");
         ArrayList<String[]> wordLsts = new ArrayList<String[]>();  
